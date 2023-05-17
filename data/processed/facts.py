@@ -1,6 +1,6 @@
 import data.utils.connect_db as connect_db
 import pandas as pd
-from data.utils.models import Pais,Fact_international_graduated,Universidades,Rama_enseñanza,Fact_egresados_rama_enseñanza
+from data.utils.models import Fact_situacion_laboral_egresados,Fact_egresados_niveles,Pais,Fact_international_graduated,Universidades,Rama_enseñanza,Fact_egresados_rama_enseñanza,Rango_edad,Sexo,Tipo_universidad,Ambito_enseñanza,Situacion_laboral
 from sqlalchemy import text
 
 def fact_international_graduated():
