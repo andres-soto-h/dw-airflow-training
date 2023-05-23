@@ -3,6 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
+import os
+from dotenv import load_dotenv
+load_dotenv()
 def db_connector():
 
     """CONEXION A LA BASE DE DATOS
@@ -14,6 +17,7 @@ def db_connector():
         #cadena_conexion = "mysql+pymysql://root:1234@localhost:3306/pragma"
         cadena_conexion = "mysql+pymysql://admin:admin@localhost:3306/dw"
         cadena_conexion = "postgresql+psycopg2://airflow:airflow@postgres/airflow"
+        cadena_conexion = os.getenv("AIRFLOW__CORE__SQL_ALCHEMY_CONN")
         auth_plugin='mysql_native_password'
         sqlEngine = create_engine(cadena_conexion)
         dbConnection = sqlEngine.connect()
