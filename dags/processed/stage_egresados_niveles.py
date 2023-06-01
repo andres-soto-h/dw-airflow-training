@@ -4,7 +4,8 @@ import pandas as pd
 #from data.utils import handle_transformation
 from datetime import datetime
 import pytz
-import dags.utils.connect_db as connect_db
+
+import utils.connect_db as connect_db
 import os
 def execution_date(df) -> pd.DataFrame:
         """

@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS stage_ramas_conocimiento (
 
 -- Dimmensional Tables
 
-DROP TABLE IF EXISTS dimm_pais;   
+DROP TABLE IF EXISTS dimm_pais;   #validar
 CREATE TABLE IF NOT EXISTS dimm_pais (
 	id  SERIAL PRIMARY KEY,
 	nombre_pais VARCHAR(255) NOT NULL

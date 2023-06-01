@@ -155,25 +155,25 @@ class Fact_international_graduated(Base):
 class Fact_egresados_rama_enseñanza(Base):
     """Class for model declaration ENPS Questions
     """
-    __tablename__ = 'fact_egresados_rama_enseanza'
+    __tablename__ = 'fact_egresados_rama_enseñanza'
    # __table_args__ = {'schema': 'pragma_gsheets'}
-    year = Column(Integer, nullable=False)
+    año = Column(Integer, nullable=False)
     id_pais = Column(Integer, nullable=False)
     id_universidad = Column(Integer, nullable=False)
-    id_rama_enseanza = Column(Integer, primary_key=True)
+    id_rama_enseñanza = Column(Integer, primary_key=True)
     num_egresados = Column(Integer, primary_key=True)
    
 
     def __init__(self,
-                 year,
+                 año,
                  id_pais,
                 id_universidad,
-                 id_rama_enseanza,
+                 id_rama_enseñanza,
                  num_egresados,
                  ) -> None:
-        self.year = year
+        self.año = año
         self.id_pais = id_pais
-        self.id_rama_enseanza = id_rama_enseanza
+        self.id_rama_enseñanza = id_rama_enseñanza
         self.num_egresados = num_egresados
         self.id_universidad = id_universidad
 

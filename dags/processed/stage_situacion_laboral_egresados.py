@@ -3,7 +3,7 @@ import mysql.connector
 from datetime import datetime
 import pytz
 import os
-import dags.utils.connect_db as connect_db
+import utils.connect_db as connect_db
 #import connect_db
 def execution_date(df) -> pd.DataFrame:
         """

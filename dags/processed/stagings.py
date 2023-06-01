@@ -1,17 +1,17 @@
-import dags.utils.connect_db as connect_db
+import utils.connect_db as connect_db
 #from data.processed.stage_egresados_niveles import *
-import dags.processed.stage_egresados_niveles as fn_stage_egresados_niveles
-import dags.processed.stage_porcentaje_egresados_internacional as fn_stage_porcentaje_egresados_internacional
-import dags.processed.stage_situacion_laboral_egresados as fn_stage_situacion_laboral_egresados
-import dags.processed.stage_ramas_conocimiento as fn_stage_ramas_conocimiento
-import dags.processed.stage_egresados_universidad as fn_stage_egresados_universidad
-import dags.processed.stage_numero_egresados_internacional as fn_numero_egresados_internacional
+import processed.stage_egresados_niveles as fn_stage_egresados_niveles
+import processed.stage_porcentaje_egresados_internacional as fn_stage_porcentaje_egresados_internacional
+import processed.stage_situacion_laboral_egresados as fn_stage_situacion_laboral_egresados
+import processed.stage_ramas_conocimiento as fn_stage_ramas_conocimiento
+import processed.stage_egresados_universidad as fn_stage_egresados_universidad
+import processed.stage_numero_egresados_internacional as fn_numero_egresados_internacional
 
 import os
 
 
 import pandas as pd
-from dags.utils.models import Pais
+from utils.models import Pais
 
 def main_staging():
     cwd = os.getcwd()

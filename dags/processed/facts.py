@@ -1,6 +1,6 @@
-import data.utils.connect_db as connect_db
+import utils.connect_db as connect_db
 import pandas as pd
-from data.utils.models import Fact_situacion_laboral_egresados,Fact_egresados_niveles,Pais,Fact_international_graduated,Universidades,Rama_enseñanza,Fact_egresados_rama_enseñanza,Rango_edad,Sexo,Tipo_universidad,Ambito_enseñanza,Situacion_laboral
+from utils.models import Fact_situacion_laboral_egresados,Fact_egresados_niveles,Pais,Fact_international_graduated,Universidades,Rama_enseñanza,Fact_egresados_rama_enseñanza,Rango_edad,Sexo,Tipo_universidad,Ambito_enseñanza,Situacion_laboral
 from sqlalchemy import text
 
 def fact_international_graduated():
@@ -52,6 +52,7 @@ def fact_international_graduated():
     except Exception as e:
         print(e)
         session.rollback()
+        raise  
 
     finally:
         session.close()
@@ -89,10 +90,10 @@ def fact_egresados_rama_enseñanza():
     try:
         for index,row in df.iterrows():
             international_graduated=(Fact_egresados_rama_enseñanza(
-                year=row['año'],
+                año=row['año'],
                 id_pais=row['id_country'],
                 id_universidad=row['id_universidad'],
-                id_rama_enseanza=row['id_rama_enseñanza'],
+                id_rama_enseñanza=row['id_rama_enseñanza'],
                 num_egresados=row['num_egresados'])
                 )
             ec_model.append(international_graduated)
@@ -105,6 +106,7 @@ def fact_egresados_rama_enseñanza():
     except Exception as e:
         print(e)
         session.rollback()
+        raise  
 
     finally:
         session.close()
@@ -163,6 +165,7 @@ def fact_egresados_niveles():
     except Exception as e:
         print(e)
         session.rollback()
+        raise  
 
     finally:
         session.close()
@@ -234,15 +237,8 @@ def fact_situacion_laboral_egresados():
     except Exception as e:
         print(e)
         session.rollback()
+        raise  
 
     finally:
         session.close()
 
-def main():
-    # fact_international_graduated()
-    fact_egresados_rama_enseñanza()
-    # fact_egresados_niveles()
-    # fact_situacion_laboral_egresados()
-    print("finalizado con exito")
-
-main()

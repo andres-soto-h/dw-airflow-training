@@ -13,22 +13,23 @@ from processed.stage_ramas_conocimiento import main_stage_ramas_conocimiento
 from processed.stage_numero_egresados_internacional import main_stage_numero_egresados_internacional
 from processed.stage_egresados_niveles import main_stage_egresados_niveles
 from processed.stage_egresados_universidad import main_stage_egresados_universidad
+from processed.facts import fact_international_graduated,fact_egresados_rama_enseñanza,fact_egresados_niveles,fact_situacion_laboral_egresados
 from processed.dimensiones import *
 
 
 #from data.processed.stagings import *
 #import data.processed.stagings as stagings
 
-DATA_DIRECTORY = "/tmp/data/raw/"
-FILE = '03003.xlsx'
+# DATA_DIRECTORY = "/tmp/data/raw/"
+# FILE = '03003.xlsx'
 
 
 workflow = DAG(
-    "dag_stagings_todo",
+    "dag_dwh",
     schedule_interval="@yearly",
     start_date=datetime(2014, 1, 1),
     tags=['dw-training'],
-)
+) 
 
 with workflow:
 
@@ -89,21 +90,22 @@ with workflow:
     task_id="insertardim_ambito_enseñanza",
     python_callable=dimm_ambito_enseñanza)    
 
- 
+    var_fact_international_graduated = PythonOperator(
+    task_id="insertar_fact_international_graduated",
+    python_callable=fact_international_graduated)    
 
-    # upload_task = PythonOperator(
-    #     task_id="cargar_archivo_situacion_laboral_egresados",
-    #     python_callable=cargar_archivo_situacion_laboral,
-        # op_kwargs=dict(
-        #     user=MYSQL_USER,
-        #     password=MYSQL_PASSWORD,
-        #     host=MYSQL_HOST,
-        #     port=MYSQL_PORT,
-        #     db=MYSQL_DATABASE,
-        #     table_name=TABLE_NAME_TEMPLATE,
-        #     csv_file=OUTPUT_FILE_TEMPLATE
-        # ),
-    #)
+    var_fact_egresados_rama_enseñanza = PythonOperator(
+    task_id="insertar_fact_egresados_rama_enseñanza",
+    python_callable=fact_egresados_rama_enseñanza)    
+
+    var_fact_egresados_niveles = PythonOperator(
+    task_id="insertar_fact_egresados_niveles",
+    python_callable=fact_egresados_niveles)    
+
+    var_fact_situacion_laboral_egresados = PythonOperator(
+    task_id="insertar_fact_situacion_laboral_egresados",
+    python_callable=fact_situacion_laboral_egresados)    
+ 
 
     insertar_stage_situacion_laboral_egresados>>dim_situacion_laboral
     insertar_stage_situacion_laboral_egresados>>dim_tipo_universidad
@@ -117,3 +119,11 @@ with workflow:
     insertar_stage_ramas_conocimiento>>dim_rama_enseñanza
     insertar_stage_ramas_conocimiento>>dim_ambito_enseñanza
     
+    dim_rama_enseñanza.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_ambito_enseñanza.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_pais.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_rango_edad.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_sexo.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_tipo_universidad.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_situacion_laboral.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
+    dim_universidades.set_downstream([var_fact_situacion_laboral_egresados,var_fact_egresados_niveles,var_fact_egresados_rama_enseñanza,var_fact_international_graduated])
